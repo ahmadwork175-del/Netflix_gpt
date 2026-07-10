@@ -1,12 +1,22 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Header from './Header'
+import { formValidationChecker } from '../utils/validation';
 
 const Login = () => {
 
     const [isSignUpForm  , setSignUpForm ] = useState(false);
+    const [errorMessage , setErrorMessage] = useState({});
+
+    const  email = useRef(null)
+      const  password = useRef(null)
+        const name = useRef(null)
      const toggleSignUpForm =()=> {
         setSignUpForm(!isSignUpForm)
-      
+     }
+     const formHandler = () => {
+const result = formValidationChecker(email.current.value , password.current.value, name.current.value)
+console.log(name.current.value)
+   setErrorMessage(result)
      }
 
   return (
@@ -20,14 +30,16 @@ const Login = () => {
       alt="hero-img"
     />
     <div className='absolute z-100 top-50 right-0 left-0 m-auto bg-black/80  p-10   text-white  w-full max-w-[400px]  rounded-md '>
-        <form className=' flex flex-col '>
+        <form onSubmit={(e)=> e.preventDefault()} className=' flex flex-col '>
             <h2 className='text-3xl font-bold mb-8'> {isSignUpForm ? "Sign Up" : "Sign In" }</h2>
-             {isSignUpForm && <input className='mb-3 p-3 border-1 border-white/20 bg-gray-800 rounded-md' type='text' placeholder=' Full name'></input>
+             {isSignUpForm && <input ref={name} className='mb-3 p-3 border-1 border-white/20 bg-gray-800 rounded-md' type='text' placeholder=' Full name'></input>
 
              }
-            <input className='mb-3 p-3 border-1 border-white/20 bg-gray-800 rounded-md' type='email' placeholder='Email Address'></input>
-            <input className='mb-3 p-3 border-1 border-white/20 bg-gray-800 rounded-md' type='password' placeholder='Password'></input>
-            <button className='bg-red-700 p-3 rounded-md mt-6'> {isSignUpForm  ? " Sign Up" : "Sign In"}  </button>
+            <input  ref={email} className='mb-3 p-3 border-1 border-white/20 bg-gray-800 rounded-md' type='email' placeholder='Email Address'></input>
+            <p className='text-red-500 p-2'>{errorMessage.email === false ? "Email is not valid" : ""}</p>
+            <input ref={password} className='mb-3 p-3 border-1 border-white/20 bg-gray-800 rounded-md' type='password' placeholder='Password'></input>
+              <p className='text-red-500 p-2'>{  errorMessage.password === false? "Password is not valid" : ""}</p>
+            <button onClick={()=> formHandler()} className='bg-red-700 p-3 rounded-md mt-6 cursor-pointer'> {isSignUpForm  ? " Sign Up" : "Sign In"}  </button>
 
           
         </form>
