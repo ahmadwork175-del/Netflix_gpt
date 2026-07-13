@@ -20,6 +20,7 @@ const Login = () => {
   const [userError, setUserError] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [buttonHandle , setButtonHandle] = useState(false);
 
   const email = useRef(null);
   const password = useRef(null);
@@ -36,9 +37,9 @@ const Login = () => {
         password.current.value,
       );
       setErrorMessage(result);
-      console.log(result);
+      
       if (result.email === false || result.password === false) return;
-
+        setButtonHandle(true)
       signInWithEmailAndPassword(
         auth,
         email.current.value,
@@ -53,7 +54,11 @@ const Login = () => {
           const errorMessage = error.message;
           console.log(errorMessage);
           setUserError(errorMessage);
-        });
+          setButtonHandle(true);
+            
+        }).finally(()=> {
+          setButtonHandle(false)
+        })
     } else {
       const result = formValidationChecker(
         email.current.value,
@@ -66,14 +71,17 @@ const Login = () => {
         result.name === false
       )
         return;
+        setButtonHandle(!buttonHandle)
       createUserWithEmailAndPassword(
         auth,
         email.current.value,
         password.current.value,
         
       )
+      
         .then((userCredential) => {
           const user = userCredential.user;
+          setButtonHandle(!buttonHandle)
           updateProfile(auth.currentUser, {
             displayName: name.current.value,
             photoURL: accountIcon,
@@ -94,9 +102,15 @@ const Login = () => {
           const errorCode = error.code;
           const errorMessage = error.message;
           setUserError(errorMessage);
+          setButtonHandle(!buttonHandle)
         });
     }
   };
+
+
+
+
+
 
   
 
@@ -115,6 +129,7 @@ const Login = () => {
             onSubmit={(e) => {
               e.preventDefault();
               formHandler();
+            
             }}
             className=" flex flex-col "
           >
@@ -171,7 +186,8 @@ const Login = () => {
             </p>
             <button
               type="submit"
-              className="bg-red-700 p-3 rounded-md mt-6 cursor-pointer"
+              disabled={buttonHandle ? true : false}
+              className={` ${buttonHandle ? "bg-red-950"  : "bg-red-700" }  p-3 rounded-md mt-6 cursor-pointer ` } 
             >
               {" "}
               {isSignUpForm ? " Sign Up" : "Sign In"}{" "}

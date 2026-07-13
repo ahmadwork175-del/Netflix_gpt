@@ -24,6 +24,7 @@ const navigate = useNavigate();
 });
  } , [] )
 
+   setTimeout( ()=> console.log(name) , 4000 )
   return (
     <>
     <Header/>
