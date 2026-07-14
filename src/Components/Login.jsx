@@ -9,7 +9,7 @@ import {
 import { auth } from "../utils/firebase";
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 import { useNavigate } from "react-router-dom";
-import accountIcon from "../assets/accounticon.jpg"
+import accountIcon from "../assets/accounticon.jpg";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 
@@ -20,7 +20,7 @@ const Login = () => {
   const [userError, setUserError] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [buttonHandle , setButtonHandle] = useState(false);
+  const [buttonHandle, setButtonHandle] = useState(false);
 
   const email = useRef(null);
   const password = useRef(null);
@@ -37,9 +37,9 @@ const Login = () => {
         password.current.value,
       );
       setErrorMessage(result);
-      
+
       if (result.email === false || result.password === false) return;
-        setButtonHandle(true)
+      setButtonHandle(true);
       signInWithEmailAndPassword(
         auth,
         email.current.value,
@@ -47,7 +47,6 @@ const Login = () => {
       )
         .then((userCredential) => {
           const user = userCredential.user;
-          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -55,10 +54,10 @@ const Login = () => {
           console.log(errorMessage);
           setUserError(errorMessage);
           setButtonHandle(true);
-            
-        }).finally(()=> {
-          setButtonHandle(false)
         })
+        .finally(() => {
+          setButtonHandle(false);
+        });
     } else {
       const result = formValidationChecker(
         email.current.value,
@@ -71,48 +70,43 @@ const Login = () => {
         result.name === false
       )
         return;
-        setButtonHandle(!buttonHandle)
+      setButtonHandle(!buttonHandle);
       createUserWithEmailAndPassword(
         auth,
         email.current.value,
         password.current.value,
-        
       )
-      
         .then((userCredential) => {
           const user = userCredential.user;
-          setButtonHandle(!buttonHandle)
+          setButtonHandle(!buttonHandle);
           updateProfile(auth.currentUser, {
             displayName: name.current.value,
             photoURL: accountIcon,
           })
             .then(() => {
-           const {uid , email , displayName , photoURL } = auth.currentUser
-            
-               dispatch(addUser({uid : uid , email: email  ,displayName: displayName , photoURL:  photoURL }))
-              navigate("/browse");
+              const { uid, email, displayName, photoURL } = auth.currentUser;
+
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: photoURL,
+                }),
+              );
             })
             .catch((error) => {
               setErrorMessage(error);
             });
-
-          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           setUserError(errorMessage);
-          setButtonHandle(!buttonHandle)
+          setButtonHandle(!buttonHandle);
         });
     }
   };
-
-
-
-
-
-
-  
 
   return (
     <>
@@ -129,7 +123,6 @@ const Login = () => {
             onSubmit={(e) => {
               e.preventDefault();
               formHandler();
-            
             }}
             className=" flex flex-col "
           >
@@ -187,7 +180,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={buttonHandle ? true : false}
-              className={` ${buttonHandle ? "bg-red-950"  : "bg-red-700" }  p-3 rounded-md mt-6 cursor-pointer ` } 
+              className={` ${buttonHandle ? "bg-red-950" : "bg-red-700"}  p-3 rounded-md mt-6 cursor-pointer `}
             >
               {" "}
               {isSignUpForm ? " Sign Up" : "Sign In"}{" "}

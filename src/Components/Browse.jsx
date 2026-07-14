@@ -1,36 +1,17 @@
-import React, { use, useEffect } from 'react'
-import {  onAuthStateChanged } from "firebase/auth";
-import {auth } from "../utils/firebase"
-import { useDispatch, useSelector } from 'react-redux';
-import { addUser } from '../utils/userSlice';
-import { useNavigate } from 'react-router-dom';
-import Header from './Header';
+
+import useNowPlayMovies from "../hooks/useNowPlayMovies";
+import Header from "./Header";
+import HeroSection from "./HeroSection";
+
 
 const Browse = () => {
-const dispatch = useDispatch();
-const navigate = useNavigate();
-
- useEffect(()=> {
-     onAuthStateChanged(auth, (user) => {
-  if (user) {
-    const {uid , email , displayName , photoURL } = user
-    console.log(user)
-    dispatch(addUser({uid : uid , email: email  ,displayName: displayName , photoURL:  photoURL }))
-     
-  } else {
-     dispatch(removeUser())
-    
-  }
-});
- } , [] )
-
-   setTimeout( ()=> console.log(name) , 4000 )
+ useNowPlayMovies();
   return (
     <>
-    <Header/>
-
+      <Header />
+      <HeroSection/>
     </>
-  )
-}
+  );
+};
 
-export default Browse
+export default Browse;
