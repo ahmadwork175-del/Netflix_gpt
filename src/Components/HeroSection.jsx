@@ -10,7 +10,7 @@ const HeroSection = () => {
 
   if (movies.length === 0) return null;
 
-  const heroMovie = movies[0];
+  const heroMovie = movies[1];
 
  const {original_title ,overview , id} = heroMovie
   

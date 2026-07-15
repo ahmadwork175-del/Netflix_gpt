@@ -38,7 +38,7 @@ const Header = () => {
 
   
   return (
-    <div className="w-full py-[24px] px-[32px] absolute z-50 flex justify-between bg-gradient-to-t to-black/80 from-black/10">
+    <div className="w-full py-[24px] px-[32px] absolute z-50 flex justify-between bg-gradient-to-t to-black/80 from-black/10 ">
       <img
         className="w-40 "
         src={LOGO}

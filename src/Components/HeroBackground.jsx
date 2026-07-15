@@ -26,7 +26,7 @@ const HeroBackground = ({ movieId }) => {
 
   return (
     <>
- <div className="absolute top-0 left-0 right-0 aspect-auto z-10 w-full ">
+ <div className="absolute top-0 left-0 right-0 aspect-auto z-10 w-full overflow-hidden ">
     <iframe
 className="w-screen aspect-video object-cover"
   src={`https://www.youtube.com/embed/${trailerVideo?.key}?autoplay=1&mute=1&loop=1&playlist=${trailerVideo?.key}&controls=0`}
